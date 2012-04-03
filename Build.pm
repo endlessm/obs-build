@@ -367,9 +367,11 @@ sub get_build {
   my ($config, $subpacks, @deps) = @_;
   my @ndeps = grep {/^-/} @deps;
   my %keep = map {$_ => 1} (@deps, @{$config->{'keep'} || []}, @{$config->{'preinstall'}});
-  for (@{$subpacks || []}) {
-    push @ndeps, "-$_" unless $keep{$_};
-  }
+  # Hack. Regardless of what binaries the to be build package provides, all
+  # dependencies should be installed. So disable negative depencies
+  #for (@{$subpacks || []}) {
+  #  push @ndeps, "-$_" unless $keep{$_};
+  #}
   my %ndeps = map {$_ => 1} @ndeps;
   @deps = grep {!$ndeps{$_}} @deps;
   push @deps, @{$config->{'preinstall'}};
@@ -386,9 +388,11 @@ sub get_deps {
   my ($config, $subpacks, @deps) = @_;
   my @ndeps = grep {/^-/} @deps;
   my %keep = map {$_ => 1} (@deps, @{$config->{'keep'} || []}, @{$config->{'preinstall'}});
-  for (@{$subpacks || []}) {
-    push @ndeps, "-$_" unless $keep{$_};
-  }
+  # Hack. Regardless of what binaries the to be build package provides, all
+  # dependencies should be installed. So disable negative depencies
+  #for (@{$subpacks || []}) {
+  #  push @ndeps, "-$_" unless $keep{$_};
+  #}
   my %ndeps = map {$_ => 1} @ndeps;
   @deps = grep {!$ndeps{$_}} @deps;
   push @deps, @{$config->{'required'}};
