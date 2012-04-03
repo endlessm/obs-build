@@ -770,7 +770,11 @@ if test ! -f $BUILD_ROOT/var/lib/rpm/packages.rpm -a ! -f $BUILD_ROOT/var/lib/rp
 		# Run debootstrap
 		set -- debootstrap --variant=buildd --arch=$DEBOOT_ARCH --include=$FULL_PKG_LIST obs $BUILD_ROOT file://$BUILD_ROOT/obs_repo
 		echo "$@ ..."
-		$@
+		if ! $@ || ! chroot $BUILD_ROOT dpkg --configure -a; then
+			cat $BUILD_ROOT/debootstrap/debootstrap.log
+			echo "Failed to setup debootstrap chroot"
+			cleanup_and_exit 1
+		fi
 	else
 		progress_setup PACKAGES_TO_PREINSTALL
 		for PKG in $PACKAGES_TO_PREINSTALL ; do
