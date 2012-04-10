@@ -322,6 +322,19 @@ fail_exit()
   cleanup_and_exit 1
 }
 
+setup_virtual_filesystems()
+{
+    mkdir -p $BUILD_ROOT/proc
+    mkdir -p $BUILD_ROOT/dev/pts
+    mkdir -p $BUILD_ROOT/dev/shm
+    mount -n -tproc none $BUILD_ROOT/proc || true
+    mount -n -tdevpts none $BUILD_ROOT/dev/pts
+    if ! test -f $BUILD_ROOT/dev/shm/.mounted ; then
+      mount -n -ttmpfs none $BUILD_ROOT/dev/shm
+      touch $BUILD_ROOT/dev/shm/.mounted
+    fi
+}
+
 shellquote()
 {
     for arg; do
@@ -1301,12 +1314,7 @@ fi
 rm -f $BUILD_ROOT/exit
 
 if [ -w /root ]; then
-    mkdir -p $BUILD_ROOT/proc
-    mkdir -p $BUILD_ROOT/dev/pts
-    mkdir -p $BUILD_ROOT/dev/shm
-    mount -n -tproc none $BUILD_ROOT/proc || true
-    mount -n -tdevpts none $BUILD_ROOT/dev/pts
-    mount -n -ttmpfs none $BUILD_ROOT/dev/shm
+  setup_virtual_filesystems
 fi
 
 if test -z "$VM_IMAGE" -a -z "$LOGFILE"; then
@@ -1721,10 +1729,7 @@ for SPECFILE in "${SPECFILES[@]}" ; do
 	    echo "build does not work on a completely full filesystem"
 	    cleanup_and_exit 1
 	fi
-	mount -n -tproc none $BUILD_ROOT/proc || true
-	mount -n -tdevpts none $BUILD_ROOT/dev/pts
-	mount -n -ttmpfs none $BUILD_ROOT/dev/shm
-
+	setup_virtual_filesystems
 	copy_oldpackages
     fi
 
@@ -1828,11 +1833,7 @@ for SPECFILE in "${SPECFILES[@]}" ; do
 
     rm -f $BUILD_ROOT/.build.packages
     ln -s ${TOPDIR#/} $BUILD_ROOT/.build.packages
-
-    mount -n -tproc none $BUILD_ROOT/proc 2> /dev/null
-    mount -n -tdevpts none $BUILD_ROOT/dev/pts 2> /dev/null
-    mount -n -ttmpfs none $BUILD_ROOT/dev/shm 2> /dev/null
-
+    setup_virtual_filesystems
     setupicecream
 
     setupccache

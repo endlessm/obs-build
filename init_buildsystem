@@ -101,8 +101,22 @@ cleanup_and_exit()
     umount -n $BUILD_ROOT/proc/sys/fs/binfmt_misc 2> /dev/null || true
     umount -n $BUILD_ROOT/proc 2> /dev/null || true
     umount -n $BUILD_ROOT/dev/pts 2> /dev/null || true
+    umount -n $BUILD_ROOT/dev/shm 2> /dev/null || true
     umount -n $BUILD_ROOT/mnt 2> /dev/null || true
     exit ${1:-0}
+}
+
+setup_virtual_filesystems()
+{
+    mkdir -p $BUILD_ROOT/proc
+    mkdir -p $BUILD_ROOT/dev/pts
+    mkdir -p $BUILD_ROOT/dev/shm
+    mount -n -tproc none $BUILD_ROOT/proc || true
+    mount -n -tdevpts none $BUILD_ROOT/dev/pts
+    if ! test -f $BUILD_ROOT/dev/shm/.mounted ; then
+      mount -n -ttmpfs none $BUILD_ROOT/dev/shm
+      touch $BUILD_ROOT/dev/shm/.mounted
+    fi
 }
 
 clean_build_root()
@@ -111,6 +125,7 @@ clean_build_root()
 	    umount -n $BUILD_ROOT/proc/sys/fs/binfmt_misc 2> /dev/null || true
 	    umount -n $BUILD_ROOT/proc 2> /dev/null || true
 	    umount -n $BUILD_ROOT/dev/pts 2> /dev/null || true
+	    umount -n $BUILD_ROOT/dev/shm 2> /dev/null || true
 	    umount -n $BUILD_ROOT/mnt 2> /dev/null || true
 	    rm -rf -- $BUILD_ROOT/*
 	    rm -rf -- $BUILD_ROOT/.build
@@ -119,9 +134,7 @@ clean_build_root()
 	    mkdir -p $BUILD_ROOT/proc
 	    mkdir -p $BUILD_ROOT/dev/pts
 	    if [ "$UID" = '0' ]; then
-		    mount -n -tproc none $BUILD_ROOT/proc
-		    mount -n -tdevpts none $BUILD_ROOT/dev/pts
-		    mount -n -ttmpfs none $BUILD_ROOT/dev/shm
+		    setup_virtual_filesystems
 	    fi
 	}
 }
@@ -537,6 +550,7 @@ if test -e $BUILD_IS_RUNNING ; then
     umount -n $BUILD_ROOT/proc/sys/fs/binfmt_misc 2> /dev/null || true
     umount -n $BUILD_ROOT/proc 2> /dev/null
     umount -n $BUILD_ROOT/dev/pts 2> /dev/null
+    umount -n $BUILD_ROOT/dev/shm 2> /dev/null
     umount -n $BUILD_ROOT/mnt 2> /dev/null
     echo "Your build system is broken!! Shall I execute"
     echo
@@ -845,12 +859,7 @@ if test -n "$PREPARE_VM" ; then
     cleanup_and_exit 0
 fi
 
-mkdir -p $BUILD_ROOT/proc
-mkdir -p $BUILD_ROOT/dev/pts
-mkdir -p $BUILD_ROOT/dev/shm
-mount -n -tproc none $BUILD_ROOT/proc 2>/dev/null || true
-mount -n -tdevpts none $BUILD_ROOT/dev/pts 2>/dev/null || true
-mount -n -ttmpfs none $BUILD_ROOT/dev/shm 2>/dev/null || true
+setup_virtual_filesystems
 
 #
 # create .build.binaries directory if requested
