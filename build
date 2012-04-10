@@ -309,6 +309,7 @@ cleanup_and_exit () {
 	umount -n $BUILD_ROOT/proc/sys/fs/binfmt_misc 2> /dev/null || true
 	umount -n $BUILD_ROOT/proc 2>/dev/null || true
 	umount -n $BUILD_ROOT/dev/pts 2>/dev/null || true
+	umount -n $BUILD_ROOT/dev/shm 2>/dev/null || true
 	test "$VM_IMAGE" = 1 && VM_IMAGE=
 	[ -n "$VM_IMAGE" ] && umount $BUILD_ROOT 2>/dev/null || true
     fi
@@ -1302,8 +1303,10 @@ rm -f $BUILD_ROOT/exit
 if [ -w /root ]; then
     mkdir -p $BUILD_ROOT/proc
     mkdir -p $BUILD_ROOT/dev/pts
+    mkdir -p $BUILD_ROOT/dev/shm
     mount -n -tproc none $BUILD_ROOT/proc || true
     mount -n -tdevpts none $BUILD_ROOT/dev/pts
+    mount -n -ttmpfs none $BUILD_ROOT/dev/shm
 fi
 
 if test -z "$VM_IMAGE" -a -z "$LOGFILE"; then
@@ -1720,6 +1723,7 @@ for SPECFILE in "${SPECFILES[@]}" ; do
 	fi
 	mount -n -tproc none $BUILD_ROOT/proc || true
 	mount -n -tdevpts none $BUILD_ROOT/dev/pts
+	mount -n -ttmpfs none $BUILD_ROOT/dev/shm
 
 	copy_oldpackages
     fi
@@ -1827,6 +1831,7 @@ for SPECFILE in "${SPECFILES[@]}" ; do
 
     mount -n -tproc none $BUILD_ROOT/proc 2> /dev/null
     mount -n -tdevpts none $BUILD_ROOT/dev/pts 2> /dev/null
+    mount -n -ttmpfs none $BUILD_ROOT/dev/shm 2> /dev/null
 
     setupicecream
 

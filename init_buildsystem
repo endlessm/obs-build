@@ -121,6 +121,7 @@ clean_build_root()
 	    if [ "$UID" = '0' ]; then
 		    mount -n -tproc none $BUILD_ROOT/proc
 		    mount -n -tdevpts none $BUILD_ROOT/dev/pts
+		    mount -n -ttmpfs none $BUILD_ROOT/dev/shm
 	    fi
 	}
 }
@@ -835,8 +836,10 @@ fi
 
 mkdir -p $BUILD_ROOT/proc
 mkdir -p $BUILD_ROOT/dev/pts
+mkdir -p $BUILD_ROOT/dev/shm
 mount -n -tproc none $BUILD_ROOT/proc 2>/dev/null || true
 mount -n -tdevpts none $BUILD_ROOT/dev/pts 2>/dev/null || true
+mount -n -ttmpfs none $BUILD_ROOT/dev/shm 2>/dev/null || true
 
 #
 # create .build.binaries directory if requested
