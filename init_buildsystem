@@ -765,8 +765,17 @@ if test ! -f $BUILD_ROOT/var/lib/rpm/packages.rpm -a ! -f $BUILD_ROOT/var/lib/rp
 		done
 
 		DEBOOT_ARCH=""
-		[ "$BUILD_ARCH" = "i586:i486:i386" ] && DEBOOT_ARCH="i386"
-		[ "$BUILD_ARCH" = "armv7hl" ] && DEBOOT_ARCH="armhf"
+		case "$BUILD_ARCH" in
+			i[456]86*) DEBOOT_ARCH="i386" ;;
+			ppc*) DEBOOT_ARCH="powerpc" ;;
+			x86_64*) DEBOOT_ARCH="amd64" ;;
+			armv7hl*) DEBOOT_ARCH="armhf" ;;
+			armv[4567]l*) DEBOOT_ARCH="armel" ;;
+			*)
+				echo "Unknown architecture"
+				cleanup_and_exit 1
+				;;
+		esac
 	
 		# Run debootstrap
 		set -- debootstrap --variant=buildd --arch=$DEBOOT_ARCH --include=$FULL_PKG_LIST obs $BUILD_ROOT file://$BUILD_ROOT/obs_repo
