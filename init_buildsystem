@@ -754,15 +754,6 @@ if test ! -f $BUILD_ROOT/var/lib/rpm/packages.rpm -a ! -f $BUILD_ROOT/var/lib/rp
     done
 	if test $PSUF = deb ; then
 		echo "Using debootstrap to preinstall deb based system"
-		
-		# Run local repos script
-		generate-obs-repos
-		
-		# Assure all packages are included
-		FULL_PKG_LIST=""
-		for PKG in $PACKAGES_TO_PREINSTALL $PACKAGES_TO_CBPREINSTALL $PACKAGES_TO_INSTALL; do
-			FULL_PKG_LIST="$PKG,$FULL_PKG_LIST"
-		done
 
 		DEBOOT_ARCH=""
 		case "$BUILD_ARCH" in
@@ -776,7 +767,18 @@ if test ! -f $BUILD_ROOT/var/lib/rpm/packages.rpm -a ! -f $BUILD_ROOT/var/lib/rp
 				cleanup_and_exit 1
 				;;
 		esac
-	
+		export DEBOOT_ARCH
+
+		echo "Debian architecture: ${DEBOOT_ARCH}"
+		# Run local repos script
+		generate-obs-repos
+
+		# Assure all packages are included
+		FULL_PKG_LIST=""
+		for PKG in $PACKAGES_TO_PREINSTALL $PACKAGES_TO_CBPREINSTALL $PACKAGES_TO_INSTALL; do
+			FULL_PKG_LIST="$PKG,$FULL_PKG_LIST"
+		done
+
 		# Run debootstrap
 		set -- debootstrap --variant=buildd --arch=$DEBOOT_ARCH --include=$FULL_PKG_LIST obs $BUILD_ROOT file://$BUILD_ROOT/obs_repo
 		echo "$@ ..."
