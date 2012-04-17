@@ -3,17 +3,24 @@
 export REPOSDIR=${BUILD_ROOT}/obs_repo
 
 if [ -d ${BUILD_ROOT}/.pkgs ]; then
-    mkdir -p ${REPOSDIR}/standard/${DEBOOT_ARCH}
+	# This step is used when worker is called from obs remote
+    
+	mkdir -p ${REPOSDIR}/standard/${DEBOOT_ARCH}
     for ORIG in `ls ${BUILD_ROOT}/.pkgs`; do
         DEST=`echo $ORIG | sed -e "s,.deb,-1obs1_${DEBOOT_ARCH}.deb,g"`
         cp ${BUILD_ROOT}/.pkgs/${ORIG} ${REPOSDIR}/standard/${DEBOOT_ARCH}/$DEST
     done
 else
-    mkdir -p ${BUILD_ROOT}
-    ln -s ${PKG_CACHE_DIR} ${BUILD_ROOT}/obs_repo
+	# This step is used on local builds by osc
+
+	mkdir -p ${BUILD_ROOT}/obs_repo/standard/all
+	find ${PKG_CACHE_DIR}/*/*/all -type f -name \*.deb -exec ln -sf {} ${BUILD_ROOT}/obs_repo/standard/all \;
+	mkdir -p ${BUILD_ROOT}/obs_repo/standard/${DEBOOT_ARCH}
+	find ${PKG_CACHE_DIR}/*/*/${DEBOOT_ARCH} -type f -name \*.deb -exec ln -sf {} ${BUILD_ROOT}/obs_repo/standard/${DEBOOT_ARCH} \;
 fi
-    mkdir -p ${REPOSDIR}/dists/obs/main/binary-${DEBOOT_ARCH}
-    mkdir -p ${REPOSDIR}/cache
+
+mkdir -p ${REPOSDIR}/dists/obs/main/binary-${DEBOOT_ARCH}
+mkdir -p ${REPOSDIR}/cache
 
 # Create apt-ftparchive files
 cat > ${REPOSDIR}/apt-ftparchive-obs.conf << EOF
