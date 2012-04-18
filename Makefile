@@ -83,6 +83,7 @@ install:
 	install -m644 build-recipe build-recipe-* $(DESTDIR)$(pkglibdir)
 	install -m644 build-pkg build-pkg-* $(DESTDIR)$(pkglibdir)
 	install -m644 *.pm lxc.conf $(DESTDIR)$(pkglibdir)
+	install -m644 obs-debootstrap-script $(DESTDIR)$(pkglibdir)
 	install -m644 configs/* $(DESTDIR)$(pkglibdir)/configs
 	install -m644 baselibs_configs/* $(DESTDIR)$(pkglibdir)/baselibs_configs
 	install -d $(DESTDIR)$(man1dir)
