@@ -59,6 +59,7 @@ install:
 	    signdummy \
 	    unrpm \
 	    generate-obs-repos \
+		obs-debootstrap-script \
 	    $(DESTDIR)$(pkglibdir)
 	install -m644 Build/*.pm $(DESTDIR)$(pkglibdir)/Build
 	install -m644 qemu-reg $(DESTDIR)$(pkglibdir)
