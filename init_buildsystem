@@ -794,10 +794,10 @@ if test ! -f $BUILD_ROOT/var/lib/rpm/packages.rpm -a ! -f $BUILD_ROOT/var/lib/rp
 		done
 
 		# Check script config availability
-		if [ ! -f /usr/share/debootstrap/scripts/obs ]; do
+		if [ ! -f /usr/share/debootstrap/scripts/obs ]; then
 			mkdir -p /usr/share/debootstrap/scripts/
 			cp ${BUILD_DIR}/obs-debootstrap-script /usr/share/debootstrap/scripts/obs 
-		done
+		fi
 
 		# Run debootstrap
 		set -- debootstrap --variant=buildd --arch=$DEBOOT_ARCH --include=$FULL_PKG_LIST obs $BUILD_ROOT file://$BUILD_ROOT/obs_repo
