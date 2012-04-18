@@ -15,19 +15,14 @@ esac
 work_out_debs () {
 	required="$(get_debs Priority: required)"
 
-	if doing_variant - || doing_variant fakechroot; then
+	if doing_variant -; then
 		#required="$required $(get_debs Priority: important)"
 		#  ^^ should be getting debconf here somehow maybe
 		base="$(get_debs Priority: important)"
-	elif doing_variant buildd || doing_variant scratchbox; then
-		base="apt $(get_debs Build-Essential: yes)"
-	elif doing_variant minbase; then
+	elif doing_variant buildd; then
+		base="$(get_debs Build-Essential: yes)"
+	elif doing_variant fakechroot || doing_variant minbase; then
 		base="apt"
-	fi
-
-	if doing_variant fakechroot; then
-		# ldd.fake needs binutils
-		required="$required binutils"
 	fi
 }
 
@@ -71,6 +66,8 @@ second_stage_install () {
 		baseprog="$(($baseprog + ${1:-1}))"
 	}
 
+    setup_devices
+
 	if doing_variant fakechroot; then
 		setup_proc_fakechroot
 	else
@@ -90,13 +87,12 @@ second_stage_install () {
 
 	p; progress $baseprog $bases INSTCORE "Installing core packages" #2
 	ln -sf mawk "$TARGET/usr/bin/awk"
-	x_core_install base-passwd
-	x_core_install base-files
+	x_core_install base-files base-passwd
 	p; progress $baseprog $bases INSTCORE "Installing core packages" #3
 	x_core_install dpkg
 
 	if [ ! -e "$TARGET/etc/localtime" ]; then
-		ln -sf /usr/share/zoneinfo/UTC "$TARGET/etc/localtime"
+		ln -sf /usr/share/zoneinfo/Etc/UTC "$TARGET/etc/localtime"
 	fi
 
 	if doing_variant fakechroot; then
@@ -122,8 +118,6 @@ second_stage_install () {
 	bases=$(set -- $required; echo $#)
 
 	info UNPACKREQ "Unpacking required packages..."
-
-	exec 7>&1
 
 	smallyes '' |
 		(repeatn 5 in_target_failmsg UNPACK_REQ_FAIL_FIVE "Failure while unpacking required packages.  This will be attempted up to five times." "" \

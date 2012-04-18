@@ -793,6 +793,12 @@ if test ! -f $BUILD_ROOT/var/lib/rpm/packages.rpm -a ! -f $BUILD_ROOT/var/lib/rp
 			FULL_PKG_LIST="$PKG,$FULL_PKG_LIST"
 		done
 
+		# Check script config availability
+		if [ ! -f /usr/share/debootstrap/scripts/obs ]; do
+			mkdir -p /usr/share/debootstrap/scripts/
+			cp ${BUILD_DIR}/obs-debootstrap-script /usr/share/debootstrap/scripts/obs 
+		done
+
 		# Run debootstrap
 		set -- debootstrap --variant=buildd --arch=$DEBOOT_ARCH --include=$FULL_PKG_LIST obs $BUILD_ROOT file://$BUILD_ROOT/obs_repo
 		echo "$@ ..."
