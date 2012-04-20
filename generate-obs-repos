@@ -30,9 +30,9 @@ Dir {
 };
 
 Default {
-  Packages::Compress "gzip";
-  Sources::Compress "gzip";
-  Contents::Compress "gzip";
+  Packages::Compress ".";
+  Sources::Compress ".";
+  Contents::Compress ".";
 };
 
 TreeDefault {
