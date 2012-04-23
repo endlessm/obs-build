@@ -83,8 +83,10 @@ sub parse {
                 $bad = 0;
               }
             }
+            $c = $1 if ($c =~ /^([^:]*):any$/);
             push @needed, $c unless $bad;
           } else {
+            $c = $1 if ($c =~ /^([^:]*):any$/);
             push @needed, $c;
           }
         }
