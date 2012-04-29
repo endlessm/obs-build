@@ -1936,6 +1936,7 @@ for SPECFILE in "${SPECFILES[@]}" ; do
     if test "$BUILDTYPE" = dsc ; then
 	rm -rf $BUILD_ROOT$TOPDIR/BUILD
 	mkdir -p $BUILD_ROOT$TOPDIR/SOURCES.DEB
+	mkdir -p $BUILD_ROOT/$TOPDIR/BUILD
 	chown -R "$ABUILD_UID:$ABUILD_GID" "$BUILD_ROOT$TOPDIR"
 	DEB_TRANSFORM=
 	DEB_SOURCEDIR=$TOPDIR/SOURCES
@@ -1953,7 +1954,8 @@ for SPECFILE in "${SPECFILES[@]}" ; do
 	    for DEB_DSCFILE in $BUILD_ROOT/$DEB_SOURCEDIR/*.dsc ; do : ; done
 	    DEB_DSCFILE="${DEB_DSCFILE##*/}"
 	fi
-	chroot $BUILD_ROOT su -c "dpkg-source -x $DEB_SOURCEDIR/$DEB_DSCFILE $TOPDIR/BUILD" - $BUILD_USER
+	DEBBUILDDIR=$TOPDIR/BUILD/$(echo $DEB_DSCFILE |  sed -e 's/\([^-]*\).*\.dsc$/\1/ ; y/_/-/')
+	chroot $BUILD_ROOT su -c "dpkg-source -x $DEB_SOURCEDIR/$DEB_DSCFILE $DEBBUILDDIR" - $BUILD_USER
     fi
 
     if test "$BUILDTYPE" = arch ; then
@@ -2084,11 +2086,11 @@ for SPECFILE in "${SPECFILES[@]}" ; do
 	if test -n "$shell"; then
 	    chroot $BUILD_ROOT su -
 	else
-	    chroot $BUILD_ROOT su -c "cd $TOPDIR/BUILD && $DSC_BUILD_CMD" - $BUILD_USER < /dev/null && BUILD_SUCCEEDED=true
+	    chroot $BUILD_ROOT su -c "cd $DEBBUILDDIR && $DSC_BUILD_CMD" - $BUILD_USER < /dev/null && BUILD_SUCCEEDED=true
 	fi
 
 	mkdir -p $BUILD_ROOT/$TOPDIR/DEBS
-	for DEB in $BUILD_ROOT/$TOPDIR/*.deb ; do
+	for DEB in $BUILD_ROOT/$TOPDIR/BUILD/*.deb ; do
 	    test -e "$DEB" && mv "$DEB" "$BUILD_ROOT/$TOPDIR/DEBS"
 	done
 	# link sources over
