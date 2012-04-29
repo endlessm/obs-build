@@ -87,7 +87,7 @@ sub parse {
       $version =~ s/-[^-]+$//;
     } elsif ($tag eq 'ARCHITECTURE') {
       my @archs = split('\s+', $data);
-      map { s/$os-// } @archs;
+      map { s/$os-//; s/any-// } @archs;
       next if grep { $_ eq "any" || $_ eq "all" } @archs;
       @exclarch = map { get_obs_archs($_) } @archs;
     } elsif ($tag eq 'SOURCE') {
