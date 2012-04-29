@@ -807,6 +807,9 @@ if test ! -f $BUILD_ROOT/var/lib/rpm/packages.rpm -a ! -f $BUILD_ROOT/var/lib/rp
 			echo "Failed to setup debootstrap chroot"
 			cleanup_and_exit 1
 		fi
+		# Setup apt caches
+		echo "deb file:///obs_repo obs main" > $BUILD_ROOT/etc/apt/sources.list
+		chroot $BUILD_ROOT apt-get update
 	else
 		progress_setup PACKAGES_TO_PREINSTALL
 		for PKG in $PACKAGES_TO_PREINSTALL ; do
