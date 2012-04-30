@@ -1954,7 +1954,7 @@ for SPECFILE in "${SPECFILES[@]}" ; do
 	    for DEB_DSCFILE in $BUILD_ROOT/$DEB_SOURCEDIR/*.dsc ; do : ; done
 	    DEB_DSCFILE="${DEB_DSCFILE##*/}"
 	fi
-	DEBBUILDDIR=$TOPDIR/BUILD/$(echo $DEB_DSCFILE |  sed -e 's/\([^-]*\).*\.dsc$/\1/ ; y/_/-/')
+	DEBBUILDDIR=$TOPDIR/BUILD/$(echo $DEB_DSCFILE |  sed -e 's/\([^_]*\)_\([^-]*\).*\.dsc$/\1-\2/')
 	chroot $BUILD_ROOT su -c "dpkg-source -x $DEB_SOURCEDIR/$DEB_DSCFILE $DEBBUILDDIR" - $BUILD_USER
     fi
 
