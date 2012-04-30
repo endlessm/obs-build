@@ -1191,7 +1191,7 @@ for PROG in /usr/bin/TeX/texhash /usr/bin/texhash ; do
 done
 
 if test -e $BUILD_ROOT/usr/share/zoneinfo/UTC ; then
-    chroot $BUILD_ROOT zic -l $(readlink -f /usr/share/zoneinfo/UTC)
+    chroot $BUILD_ROOT bash -c 'zic -l $(readlink -f /usr/share/zoneinfo/UTC)'
 fi
 
 test -e $BUILD_ROOT/.build/init_buildsystem.data || HOST=`hostname`
