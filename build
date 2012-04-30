@@ -2083,6 +2083,9 @@ for SPECFILE in "${SPECFILES[@]}" ; do
 	    chmod +x $BUILD_ROOT/$TOPDIR/SOURCES/build.script
 	fi
 
+	# Generate APT cache before build
+	chroot $BUILD_ROOT su -c "apt-cache gencaches" < /dev/null
+
 	if test -n "$shell"; then
 	    chroot $BUILD_ROOT su -
 	else
