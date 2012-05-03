@@ -52,7 +52,8 @@ recipe_build_debootstrap() {
     mkdir -p "$BUILD_ROOT/$myroot/etc/dpkg/dpkg.cfg.d"
     echo force-unsafe-io > "$BUILD_ROOT/$myroot/etc/dpkg/dpkg.cfg.d/force-unsafe-io"
 
-    set -- chroot $BUILD_ROOT debootstrap --keep-debootstrap-dir --no-check-gpg --variant=buildd --arch="${arch}" --include="$FULL_PKG_LIST" "$dist" "$myroot" file:///.build.binaries
+    cp -f "$BUILD_DIR/obs-debootstrap-script" "$BUILD_ROOT/.obs-debootstrap-script"
+    set -- chroot $BUILD_ROOT debootstrap --keep-debootstrap-dir --no-check-gpg --variant=buildd --arch="${arch}" --include="$FULL_PKG_LIST" "$dist" "$myroot" file:///.build.binaries /.obs-debootstrap-script
     echo "running debootstrap..."
     if ! "$@" || ! chroot $BUILD_ROOT dpkg --configure -a; then
         cat $BUILD_ROOT/$myroot/debootstrap/debootstrap.log
