@@ -800,7 +800,7 @@ if test ! -f $BUILD_ROOT/var/lib/rpm/packages.rpm -a ! -f $BUILD_ROOT/var/lib/rp
 		fi
 
 		# Run debootstrap
-		set -- debootstrap --keep-debootstrap-dir --variant=buildd --arch=$DEBOOT_ARCH --include=$FULL_PKG_LIST obs $BUILD_ROOT file://$BUILD_ROOT/obs_repo
+		set -- debootstrap --keep-debootstrap-dir --variant=buildd --arch=$DEBOOT_ARCH --include=$FULL_PKG_LIST obs $BUILD_ROOT file://$BUILD_ROOT/obs_repo $BUILD_DIR/obs-debootstrap-script
 		echo "$@ ..."
 		if ! $@ || ! chroot $BUILD_ROOT dpkg --configure -a; then
 			cat $BUILD_ROOT/debootstrap/debootstrap.log
