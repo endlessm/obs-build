@@ -98,6 +98,7 @@ recipe_build_debootstrap() {
     umount -n $BUILD_ROOT/$myroot/sys
     umount -n $BUILD_ROOT/$myroot/dev/pts
     umount -n $BUILD_ROOT/$myroot/dev/shm
+    umount -n $BUILD_ROOT/$myroot/run/shm 2>/dev/null || true
 
     # move topdir back
     mv "$BUILD_ROOT/$myroot/$TOPDIR" "$BUILD_ROOT/${TOPDIR%/*}"

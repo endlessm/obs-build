@@ -431,6 +431,7 @@ cleanup_and_exit () {
 	umount -n $BUILD_ROOT/proc 2>/dev/null || true
 	umount -n $BUILD_ROOT/dev/pts 2>/dev/null || true
 	umount -n $BUILD_ROOT/dev/shm 2>/dev/null || true
+	umount -n $BUILD_ROOT/run/shm 2>/dev/null || true
 	umount -n $BUILD_ROOT/sys 2>/dev/null || true
 	test -n "$VM_ROOT" -a "$VM_ROOT" != 1 && umount $BUILD_ROOT 2>/dev/null || true
 	test -n "$VM_TYPE" && vm_cleanup
@@ -1444,6 +1445,7 @@ for RECIPEFILE in "${RECIPEFILES[@]}" ; do
 	umount -n $BUILD_ROOT/proc 2>/dev/null || true
 	umount -n $BUILD_ROOT/dev/pts 2>/dev/null || true
 	umount -n $BUILD_ROOT/dev/shm 2>/dev/null || true
+	umount -n $BUILD_ROOT/run/shm 2>/dev/null || true
 	umount -n $BUILD_ROOT/sys 2>/dev/null || true
     fi
 done
