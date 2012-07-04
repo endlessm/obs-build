@@ -1344,6 +1344,7 @@ if [ -z "$RUNNING_IN_VM" ]; then
     echo Using BUILD_ROOT=$BUILD_ROOT
     test -n "$BUILD_RPMS" && echo Using BUILD_RPMS=$BUILD_RPMS
     echo Using BUILD_ARCH=$BUILD_ARCH
+    echo Using RELEASE=$RELEASE
     test -n "$VM_TYPE" && echo "Doing $VM_TYPE build${VM_IMAGE:+ in $VM_IMAGE}"
     echo
 fi
@@ -1958,7 +1959,10 @@ for SPECFILE in "${SPECFILES[@]}" ; do
 	    DEB_DSCFILE="${DEB_DSCFILE##*/}"
 	fi
 	DEBBUILDDIR=$TOPDIR/BUILD/$(echo $DEB_DSCFILE |  sed -e 's/\([^_]*\)_\([^-]*\).*\.dsc$/\1-\2/')
+	DEBVERSION=$(echo $DEB_DSCFILE |  sed -e 's/[^_]*_\(.*\).*\.dsc$/\1/')
+
 	chroot $BUILD_ROOT su -c "dpkg-source -x $DEB_SOURCEDIR/$DEB_DSCFILE $DEBBUILDDIR" - $BUILD_USER
+	chroot $BUILD_ROOT su -c "cd $DEBBUILDDIR && dch  --force-distribution -D unstable -v ${DEBVERSION}+${RELEASE} $REASON" - $BUILD_USER
     fi
 
     if test "$BUILDTYPE" = arch ; then
