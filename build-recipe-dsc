@@ -82,7 +82,7 @@ sed -i "s/\${PACKAGE} (\${VERSION})/\${PACKAGE} (\${VERSION}$OBS_DCH_RELEASE)/" 
 EOF
     elif test -z "$DEB_TRANSFORM"; then
 	# Use dch to apply new version in changelog
-	DEBVERSION=$(echo $DEB_DSCFILE |  sed -e 's/[^_]*_\(.*\).*\.dsc$/\1/')
+	DEBVERSION=$(egrep -m1 '^Version: ' $BUILD_ROOT/$DEB_SOURCEDIR/$DEB_DSCFILE  | sed 's/^Version:[ ]*//')
 	chroot $BUILD_ROOT su -c "cd $TOPDIR/BUILD && dch  --force-distribution -D unstable -v ${DEBVERSION}+${RELEASE} $REASON" - $BUILD_USER
     fi
 
