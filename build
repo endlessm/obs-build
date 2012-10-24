@@ -334,6 +334,8 @@ setup_virtual_filesystems()
       mount -n -ttmpfs none $BUILD_ROOT/dev/shm
       touch $BUILD_ROOT/dev/shm/.mounted
     fi
+	# Adding file so Ubuntu linux kernel package auto-detects it is buildd environment
+	touch $BUILD_ROOT/CurrentlyBuilding
 }
 
 shellquote()
