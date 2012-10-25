@@ -334,8 +334,6 @@ setup_virtual_filesystems()
       mount -n -ttmpfs none $BUILD_ROOT/dev/shm
       touch $BUILD_ROOT/dev/shm/.mounted
     fi
-	# Adding file so Ubuntu linux kernel package auto-detects it is buildd environment
-	touch $BUILD_ROOT/CurrentlyBuilding
 }
 
 shellquote()
@@ -2085,6 +2083,8 @@ for SPECFILE in "${SPECFILES[@]}" ; do
 #	if [ -n "$BUILD_JOBS" ]; then
 #	    DSC_BUILD_JOBS="-j$BUILD_JOBS"
 #	fi
+	# Adding file so Ubuntu linux kernel package auto-detects it is buildd environment
+	touch $BUILD_ROOT/CurrentlyBuilding
 	DSC_BUILD_CMD="dpkg-buildpackage -us -uc -rfakeroot $DSC_BUILD_JOBS"
 	if test -e $BUILD_ROOT/$TOPDIR/SOURCES/build.script ; then
 	    echo "Sourcing build.script to build - it should normally run 'dpkg-buildpackage -us -uc -rfakeroot'"
@@ -2110,6 +2110,9 @@ for SPECFILE in "${SPECFILES[@]}" ; do
 	while read f ; do
 	    ln $BUILD_ROOT/$DEB_SOURCEDIR/$f $BUILD_ROOT/$TOPDIR/DEBS/
 	done < <(sed -ne '/^Files:/,$s/^ ................................ [0-9][0-9]* //p' < $BUILD_ROOT/$DEB_SOURCEDIR/$DEB_DSCFILE)
+
+	# Remove file so Ubuntu linux kernel package auto-detects it is buildd environment
+	rm -f $BUILD_ROOT/CurrentlyBuilding
     fi
 
     if test "$BUILDTYPE" = arch ; then
