@@ -103,7 +103,7 @@ dsc_build() {
     DSC_BUILD_CMD="$(queryconfig --dist "$BUILD_DIST" --archpath "$BUILD_ARCH" --configdir "$CONFIG_DIR" substitute dsc:build_cmd)"
     if test -z "$DSC_BUILD_CMD" ; then
 	DSC_BUILD_CMD="dpkg-buildpackage -us -uc -b"
-	test -n "$DEBVERSION" && DSC_BUILD_CMD="$DSC_BUILD_CMD -v${DEBVERSION}"
+	test -n "$DEBVERSION" && DSC_BUILD_CMD="$DSC_BUILD_CMD -v${DEBVERSION}~0"
     fi
     if test -e $buildroot/$TOPDIR/SOURCES/build.script ; then
 	echo "Sourcing build.script to build - it should normally run 'dpkg-buildpackage -us -uc'"
