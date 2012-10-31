@@ -2085,7 +2085,7 @@ for SPECFILE in "${SPECFILES[@]}" ; do
 #	fi
 	# Adding file so Ubuntu linux kernel package auto-detects it is buildd environment
 	touch $BUILD_ROOT/CurrentlyBuilding
-	DSC_BUILD_CMD="dpkg-buildpackage -v${DEBVERSION} -us -uc -rfakeroot $DSC_BUILD_JOBS"
+	DSC_BUILD_CMD="dpkg-buildpackage -v${DEBVERSION}~0 -us -uc -rfakeroot $DSC_BUILD_JOBS"
 	if test -e $BUILD_ROOT/$TOPDIR/SOURCES/build.script ; then
 	    echo "Sourcing build.script to build - it should normally run 'dpkg-buildpackage -us -uc -rfakeroot'"
 	    DSC_BUILD_CMD="source $TOPDIR/SOURCES/build.script"
