@@ -814,6 +814,7 @@ if test ! -f $BUILD_ROOT/var/lib/rpm/packages.rpm -a ! -f $BUILD_ROOT/var/lib/rp
 		echo "deb file:///obs_repo obs main" > $BUILD_ROOT/etc/apt/sources.list
 		chroot $BUILD_ROOT apt-get update
 	else
+		PACKAGES_TO_PREINSTALL=`reorder $PACKAGES_TO_PREINSTALL`
 		progress_setup PACKAGES_TO_PREINSTALL
 		for PKG in $PACKAGES_TO_PREINSTALL ; do
 		progress_step PACKAGES_TO_PREINSTALL
