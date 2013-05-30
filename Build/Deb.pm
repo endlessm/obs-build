@@ -18,9 +18,9 @@ my %obs2debian = (
   "armv4l" => "armel",
   "armv5l" => "armel",
   "armv6l" => "armel",
-  "armv6hl" => "armhf"
+  "armv6hl" => "armhf",
   "armv7l" => "armel",
-  "armv7hl" => "armhf"
+  "armv7hl" => "armhf",
 );
 
 sub get_debian_arch {
