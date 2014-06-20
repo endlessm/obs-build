@@ -196,6 +196,7 @@ sub read_config {
   $config->{'rawmacros'} = '';
   $config->{'release'} = '<CI_CNT>.<B_CNT>';
   $config->{'repotype'} = [];
+  $config->{'profile'} = '';
   $config->{'patterntype'} = [];
   $config->{'fileprovides'} = {};
   for my $l (@spec) {
@@ -267,6 +268,8 @@ sub read_config {
       }
     } elsif ($l0 eq 'repotype:') { #type of generated repository data
       $config->{'repotype'} = [ @l ];
+    } elsif ($l0 eq 'profile:') { #build profile to use
+      $config->{'profile'} = $l[0];
     } elsif ($l0 eq 'type:') { #kind of packaging system (spec, dsc or kiwi)
       $config->{'type'} = $l[0];
     } elsif ($l0 eq 'patterntype:') { #kind of generated patterns in repository
