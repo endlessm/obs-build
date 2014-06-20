@@ -261,6 +261,7 @@ sub read_config {
   $config->{'rawmacros'} = '';
   $config->{'release'} = '<CI_CNT>.<B_CNT>';
   $config->{'repotype'} = [];
+  $config->{'profile'} = '';
   $config->{'patterntype'} = [];
   $config->{'fileprovides'} = {};
   $config->{'constraint'} = [];
@@ -336,6 +337,8 @@ sub read_config {
       }
     } elsif ($l0 eq 'repotype:') { # type of generated repository data
       $config->{'repotype'} = [ @l ];
+    } elsif ($l0 eq 'profile:') { #build profile to use
+      $config->{'profile'} = $l[0];
     } elsif ($l0 eq 'type:') { # kind of recipe system (spec,dsc,arch,kiwi,...)
       $config->{'type'} = $l[0];
     } elsif ($l0 eq 'buildengine:') { # build engine (build,mock)
