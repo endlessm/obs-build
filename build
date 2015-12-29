@@ -1830,6 +1830,12 @@ for SPECFILE in "${SPECFILES[@]}" ; do
 	fi
     fi
 
+    # Set the locale to POSIX in /etc/locale.conf to ensure it's used
+    # through the build
+    if test -f $BUILD_ROOT/etc/locale.conf ; then
+        echo "LC_ALL=POSIX" > $BUILD_ROOT/etc/locale.conf
+    fi
+
     if test "$BUILDTYPE" = spec ; then
 	TOPDIR=`chroot $BUILD_ROOT su -c "rpm --eval '%_topdir'" - $BUILD_USER`
 	if test -z "$TOPDIR"; then
