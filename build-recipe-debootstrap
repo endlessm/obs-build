@@ -78,6 +78,12 @@ recipe_build_debootstrap() {
     echo "127.0.0.2 localhost."  >> $BUILD_ROOT/$myroot/etc/hosts
     cat $BUILD_ROOT/$myroot/etc/hosts
 
+    # Set the locale to POSIX in /etc/locale.conf to ensure it's used
+    # through the build when systemd is in use
+    if test -f $BUILD_ROOT/$myroot/etc/locale.conf ; then
+	echo "LC_ALL=POSIX" > $BUILD_ROOT/$myroot/etc/locale.conf
+    fi
+
     # Mount special filesystem in the debootstrap build root
     mount -n -tproc none $BUILD_ROOT/$myroot/proc
     mount -n -tsysfs -o ro none $BUILD_ROOT/$myroot/sys
