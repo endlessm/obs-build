@@ -330,7 +330,7 @@ setup_virtual_filesystems()
     mkdir -p $BUILD_ROOT/dev/pts
     mkdir -p $BUILD_ROOT/dev/shm
     mount -n -tproc none $BUILD_ROOT/proc || true
-    mount -n -tdevpts none $BUILD_ROOT/dev/pts
+    mount -n -tdevpts -omode=0620,gid=5 none $BUILD_ROOT/dev/pts
     if ! test -f $BUILD_ROOT/dev/shm/.mounted ; then
       mount -n -ttmpfs none $BUILD_ROOT/dev/shm
       touch $BUILD_ROOT/dev/shm/.mounted
