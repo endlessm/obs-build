@@ -1092,6 +1092,10 @@ if test -n "$KILL" ; then
 	lxc-stop -n "$LXCID" || true
 	lxc-destroy -n "$LXCID"
     elif test -z "$VM_IMAGE" ; then
+	# Kill once with SIGTERM to allow processes to clean up and then
+	# follow with SIGKILL to ensure all processes are gone
+	$BUILD_DIR/killchroot -s 15 $BUILD_ROOT
+	sleep 2
 	if ! $BUILD_DIR/killchroot -s 9 $BUILD_ROOT ; then
 	    echo "could not kill build in $BUILD_ROOT"
 	    cleanup_and_exit 1
