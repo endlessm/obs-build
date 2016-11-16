@@ -750,6 +750,10 @@ kill_running_build() {
 	vm_set_buildstatus 1
 	vm_kill
     else
+	# Kill once with SIGTERM to allow processes to clean up and then
+	# follow with SIGKILL to ensure all processes are gone
+	$BUILD_DIR/killchroot -s 15 $BUILD_ROOT
+	sleep 2
 	if ! $BUILD_DIR/killchroot -s 9 $BUILD_ROOT ; then
 	    cleanup_and_exit 1 "could not kill build in $BUILD_ROOT"
 	fi
