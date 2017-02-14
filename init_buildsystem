@@ -100,6 +100,7 @@ cleanup_and_exit()
 # XXX: use stat -f /dev/pts/ -c %T  to check whether it's mounted and not suppress errors then?
     umount -n $BUILD_ROOT/proc/sys/fs/binfmt_misc 2> /dev/null || true
     umount -n $BUILD_ROOT/proc 2> /dev/null || true
+    umount -n $BUILD_ROOT/sys 2> /dev/null || true
     umount -n $BUILD_ROOT/dev/pts 2> /dev/null || true
     umount -n $BUILD_ROOT/dev/shm 2> /dev/null || true
     umount -n $BUILD_ROOT/run/shm 2> /dev/null || true
@@ -110,9 +111,11 @@ cleanup_and_exit()
 setup_virtual_filesystems()
 {
     mkdir -p $BUILD_ROOT/proc
+    mkdir -p $BUILD_ROOT/sys
     mkdir -p $BUILD_ROOT/dev/pts
     mkdir -p $BUILD_ROOT/dev/shm
     mount -n -tproc none $BUILD_ROOT/proc || true
+    mount -n -tsysfs none $BUILD_ROOT/sys
     mount -n -tdevpts -omode=0620,gid=5 none $BUILD_ROOT/dev/pts
     if ! test -f $BUILD_ROOT/dev/shm/.mounted ; then
       mount -n -ttmpfs none $BUILD_ROOT/dev/shm
@@ -125,6 +128,7 @@ clean_build_root()
 	test -n "$BUILD_ROOT" && {
 	    umount -n $BUILD_ROOT/proc/sys/fs/binfmt_misc 2> /dev/null || true
 	    umount -n $BUILD_ROOT/proc 2> /dev/null || true
+	    umount -n $BUILD_ROOT/sys 2> /dev/null || true
 	    umount -n $BUILD_ROOT/dev/pts 2> /dev/null || true
 	    umount -n $BUILD_ROOT/dev/shm 2> /dev/null || true
 	    umount -n $BUILD_ROOT/run/shm 2> /dev/null || true
@@ -551,6 +555,7 @@ if test -e $BUILD_IS_RUNNING ; then
     echo To be sure, we will build it again completely...
     umount -n $BUILD_ROOT/proc/sys/fs/binfmt_misc 2> /dev/null || true
     umount -n $BUILD_ROOT/proc 2> /dev/null
+    umount -n $BUILD_ROOT/sys 2> /dev/null
     umount -n $BUILD_ROOT/dev/pts 2> /dev/null
     umount -n $BUILD_ROOT/dev/shm 2> /dev/null
     umount -n $BUILD_ROOT/run/shm 2> /dev/null
