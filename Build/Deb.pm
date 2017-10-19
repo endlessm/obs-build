@@ -218,9 +218,14 @@ sub debq {
   $data = substr($data, 8 + 60 + $len);
   if (substr($data, 0, 16) ne 'control.tar.gz  ' &&
       substr($data, 0, 16) ne 'control.tar.gz/ ') {
-    warn("$fn: control.tar.gz is not second ar entry\n");
-    close DEBF unless ref $fn;
-    return ();
+    if (substr($data, 0, 16) eq 'control.tar.xz  ' ||
+        substr($data, 0, 16) eq 'control.tar.xz/ ') {
+      $decompressor = "unxz";
+    } else  {
+      warn("$fn: control.tar is not second ar entry\n");
+      close DEBF unless ref $fn;
+      return ();
+    }
   }
   $len = substr($data, 48, 10);
   if (length($data) < 60+$len) {
@@ -240,7 +245,7 @@ sub debq {
     $data = uncompress($data, $decompressor);
   }
   if (!$data) {
-    warn("$fn: corrupt control.tar.gz file\n");
+    warn("$fn: corrupt control.tar file\n");
     return ();
   }
   my $control;
@@ -250,7 +255,7 @@ sub debq {
     my $len = oct('00'.substr($data, 124,12));
     my $blen = ($len + 1023) & ~511;
     if (length($data) < $blen) {
-      warn("$fn: corrupt control.tar.gz file\n");
+      warn("$fn: corrupt control.tar file\n");
       return ();
     }
     if ($n eq './control' || $n eq "control") {
@@ -351,8 +356,11 @@ sub queryhdrmd5 {
   }
   $data = substr($data, 8 + 60 + $len);
   if (substr($data, 0, 16) ne 'control.tar.gz  ' &&
-      substr($data, 0, 16) ne 'control.tar.gz/ ') {
-    warn("$bin: control.tar.gz is not second ar entry\n");
+      substr($data, 0, 16) ne 'control.tar.gz/ ' &&
+      substr($data, 0, 16) ne 'control.tar.xz  ' &&
+      substr($data, 0, 16) ne 'control.tar.xz/ ')
+   {
+    warn("$bin: control.tar is not second ar entry\n");
     close F;
     return undef;
   }
