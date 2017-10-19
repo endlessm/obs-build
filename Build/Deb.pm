@@ -93,7 +93,8 @@ sub parse {
       @exclarch = map { get_obs_archs($_) } @archs;
     } elsif ($tag eq 'SOURCE') {
       $name = $data;
-    } elsif ($tag eq 'BUILD-DEPENDS' || $tag eq 'BUILD-CONFLICTS' || $tag eq 'BUILD-IGNORE' || $tag eq 'BUILD-DEPENDS-INDEP') {
+    } elsif ($tag eq 'BUILD-DEPENDS' || $tag eq 'BUILD-CONFLICTS' || $tag eq 'BUILD-IGNORE' ||
+        $tag eq 'BUILD-DEPENDS-INDEP' || $tag eq 'BUILD-DEPENDS-ARCH' || $tag eq 'BUILD-CONFLICTS-ARCH' ) {
       my @d = split(/,\s*/, $data);
       for my $d (@d) {
         my @alts = split('\s*\|\s*', $d);
@@ -144,7 +145,7 @@ sub parse {
 	$d =~ s/ \(([^\)]*)\)/ $1/g;
 	$d =~ s/>>/>/g;
 	$d =~ s/<</</g;
-	if ($tag eq 'BUILD-DEPENDS' || $tag eq 'BUILD-DEPENDS-INDEP') {
+	if ($tag eq 'BUILD-DEPENDS' || $tag eq 'BUILD-DEPENDS-INDEP' || $tag eq 'BUILD-DEPENDS-ARCH') {
 	  push @deps, $d;
 	} else {
 	  push @deps, "-$d";
