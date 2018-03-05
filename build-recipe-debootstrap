@@ -68,6 +68,11 @@ recipe_build_debootstrap() {
         cp $BUILD_ROOT/etc/hosts $BUILD_ROOT/$myroot/etc/hosts
     fi
 
+
+    # Hack for glibc build, make localhost. resolve
+    echo "127.0.0.2 localhost."  >> $BUILD_ROOT/$myroot/etc/hosts
+    cat $BUILD_ROOT/$myroot/etc/hosts
+
     # Mount special filesystem in the debootstrap build root
     mount -n -tproc none $BUILD_ROOT/$myroot/proc
     mount -n -tsysfs -o ro none $BUILD_ROOT/$myroot/sys
