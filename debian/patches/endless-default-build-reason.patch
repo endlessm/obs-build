@@ -1,0 +1,15 @@
+Set a default build reason of "Rebuild requested" to ensure that a
+reason is set if the requestor doesn't specify one. Without this, dch
+will try to open an editor when doing a local build.
+
+--- a/build
++++ b/build
+@@ -75,7 +75,7 @@ RUNNING_IN_VM=
+ RPMLIST=
+ RELEASE=
+ PROFILE=
+-REASON=
++REASON="Rebuild requested"
+ NOROOTFORBUILD=
+ LOGFILE=
+ KILL=

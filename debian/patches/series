@@ -1,0 +1,12 @@
+endless-build-profile.patch
+endless-default-build-reason.patch
+endless-posix-build-locale.patch
+endless-no-debootstap-daemons.patch
+endless-mount-devpts-mode.patch
+endless-kill-sigterm.patch
+endless-mount-sys.patch
+endless-buildprofilespec.patch
+endless-build-depends-arch.patch
+endless-Handle-.deb-files-that-have-sysv-ar-1-filenames.patch
+endless-deb-Generalize-ungzip-to-uncompress.patch
+endless-Deb.pm-support-control.tar.xz.patch

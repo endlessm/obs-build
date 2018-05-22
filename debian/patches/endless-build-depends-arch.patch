@@ -1,0 +1,36 @@
+From 9293dea3087d8805bf74fd307c2e4b7b40679a0a Mon Sep 17 00:00:00 2001
+From: Riku Voipio <riku.voipio@linaro.org>
+Date: Thu, 19 Oct 2017 15:52:50 +0300
+Subject: [PATCH] Deb.pm: support Build-Depends-Arch
+
+Build-Depends-Arch and Build-Conflicts-Arch where added in dpkg 1.16.4.
+They are now documented in man deb-src-control(5) and debian policy.
+Add support to obs-build as packages in unstable are starting to use
+them.
+---
+ Build/Deb.pm | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+Index: obs-build-2013.05.30/Build/Deb.pm
+===================================================================
+--- obs-build-2013.05.30.orig/Build/Deb.pm
++++ obs-build-2013.05.30/Build/Deb.pm
+@@ -93,7 +93,8 @@ sub parse {
+       @exclarch = map { get_obs_archs($_) } @archs;
+     } elsif ($tag eq 'SOURCE') {
+       $name = $data;
+-    } elsif ($tag eq 'BUILD-DEPENDS' || $tag eq 'BUILD-CONFLICTS' || $tag eq 'BUILD-IGNORE' || $tag eq 'BUILD-DEPENDS-INDEP') {
++    } elsif ($tag eq 'BUILD-DEPENDS' || $tag eq 'BUILD-CONFLICTS' || $tag eq 'BUILD-IGNORE' ||
++        $tag eq 'BUILD-DEPENDS-INDEP' || $tag eq 'BUILD-DEPENDS-ARCH' || $tag eq 'BUILD-CONFLICTS-ARCH' ) {
+       my @d = split(/,\s*/, $data);
+       for my $d (@d) {
+         my @alts = split('\s*\|\s*', $d);
+@@ -144,7 +145,7 @@ sub parse {
+ 	$d =~ s/ \(([^\)]*)\)/ $1/g;
+ 	$d =~ s/>>/>/g;
+ 	$d =~ s/<</</g;
+-	if ($tag eq 'BUILD-DEPENDS' || $tag eq 'BUILD-DEPENDS-INDEP') {
++	if ($tag eq 'BUILD-DEPENDS' || $tag eq 'BUILD-DEPENDS-INDEP' || $tag eq 'BUILD-DEPENDS-ARCH') {
+ 	  push @deps, $d;
+ 	} else {
+ 	  push @deps, "-$d";
