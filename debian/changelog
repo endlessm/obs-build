@@ -1,3 +1,9 @@
+obs-build (2013.05.30-0co1endless11) unstable; urgency=medium
+
+  * Remove all patches as they've been applied to the main branch.
+
+ -- Dan Nicholson <nicholson@endlessm.com>  Tue, 22 May 2018 09:57:26 -0500
+
 obs-build (2013.05.30-0co1endless10) wheezy; urgency=medium
 
   * Support control.tar.xz archives in debs. Since dpkg-1.19, the default
