@@ -1,7 +1,0 @@
-0001-Use-obs-build-in-locations-and-executable-names.patch
-0002-debootstrap-ensure-etc-hosts-exists.patch
-0003-HACK-make-glibc-build.patch
-0004-deb-don-t-create-an-empty-rcS.patch
-0005-dsc-keep-everything.patch
-build-recipe-dsc-don-t-rebuild-the-source-package.patch
-debootstrap-add-fallback-for-Debian-SID-distro.patch
