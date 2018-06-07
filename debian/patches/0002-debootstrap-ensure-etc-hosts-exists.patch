@@ -1,0 +1,30 @@
+From: =?utf-8?b?SMOpY3RvciBPcsOzbiBNYXJ0w61uZXo=?= <zumbi@debian.org>
+Date: Mon, 5 Mar 2018 01:06:54 +0100
+Subject: debootstrap: ensure /etc/hosts exists
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+
+ZGVib290c3RyYXAgd29uJ3QgbmVjZXNzZXJpbHkgY3JlYXRlIC9ldGMvaG9zdHMsIHNvIGNvcHkg
+aXQgZnJvbSB0aGUKbWFpbiBidWlsZHJvb3QgaWYgaXQncyBub3QgdGhlcmUuCgpTaWduZWQtb2Zm
+LWJ5OiBTam9lcmQgU2ltb25zIDxzam9lcmQuc2ltb25zQGNvbGxhYm9yYS5jby51az4KU2lnbmVk
+LW9mZi1ieTogSMOpY3RvciBPcsOzbiBNYXJ0w61uZXogPHp1bWJpQGRlYmlhbi5vcmc+Cg==
+---
+ build-recipe-debootstrap | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/build-recipe-debootstrap b/build-recipe-debootstrap
+index baee905..9220952 100644
+--- a/build-recipe-debootstrap
++++ b/build-recipe-debootstrap
+@@ -77,6 +77,10 @@ recipe_build_debootstrap() {
+ 
+     chroot $BUILD_ROOT/$myroot apt-cache gencaches
+ 
++    if ! test -e $BUILD_ROOT/$myroot/etc/hosts ; then
++        cp $BUILD_ROOT/etc/hosts $BUILD_ROOT/$myroot/etc/hosts
++    fi
++
+     # move topdir over
+     mv "$BUILD_ROOT/$TOPDIR" "$BUILD_ROOT/$myroot/${TOPDIR%/*}"
+ 

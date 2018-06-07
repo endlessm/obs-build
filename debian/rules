@@ -1,7 +1,10 @@
 #!/usr/bin/make -f
-#export DH_VERBOSE=1
-
-SHELL=/bin/bash
-
 %:
-	dh ${@}
+	dh $@
+
+override_dh_install:
+	dh_install
+	# file marked executable, fix it.
+	chmod a-x debian/obs-build/usr/lib/obs-build/build-validate-params
+	# fix script execution
+	chmod a+x debian/obs-build/usr/lib/obs-build/build-vm-openstack

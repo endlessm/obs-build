@@ -1,0 +1,70 @@
+From: =?utf-8?b?SMOpY3RvciBPcsOzbiBNYXJ0w61uZXo=?= <zumbi@debian.org>
+Date: Mon, 5 Mar 2018 01:01:07 +0100
+Subject: Use obs-build in locations and executable names
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+
+ICBpbnN0ZWFkIG9mIGp1c3QgYnVpbGQuCgpTaWduZWQtb2ZmLWJ5OiBEaW1pdHJpIEpvaG4gTGVk
+a292IDxkaW1pdHJpLmoubGVka292QGludGVsLmNvbT4KU2lnbmVkLW9mZi1ieTogSMOpY3RvciBP
+csOzbiBNYXJ0w61uZXogPHp1bWJpQGRlYmlhbi5vcmc+Cg==
+---
+ Makefile | 13 +++++++------
+ build    |  6 +++---
+ 2 files changed, 10 insertions(+), 9 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 3d0c608..41f73f3 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,7 +1,7 @@
+ VERSION=0.1
+ SCM=$(shell if test -d .svn; then echo svn; elif test -d .git; then echo git; fi)
+ DATE=$(shell date +%Y%m%d%H%M)
+-BUILD=build
++BUILD=obs-build
+ 
+ INITVM_ARCH=$(shell bash -c '. common_functions ; build_host_arch; echo $$BUILD_INITVM_ARCH')
+ 
+@@ -85,11 +85,12 @@ install:
+ 	install -m644 *.pm lxc.conf $(DESTDIR)$(pkglibdir)
+ 	install -m644 configs/* $(DESTDIR)$(pkglibdir)/configs
+ 	install -m644 baselibs_configs/* $(DESTDIR)$(pkglibdir)/baselibs_configs
+-	install -m644 build.1 $(DESTDIR)$(man1dir)
+-	install -m644 vc.1 $(DESTDIR)$(man1dir)
+-	install -m644 unrpm.1 $(DESTDIR)$(man1dir)
+-	ln -sf $(pkglibdir)/build $(DESTDIR)$(bindir)/build
+-	ln -sf $(pkglibdir)/vc    $(DESTDIR)$(bindir)/buildvc
++	install -d $(DESTDIR)$(man1dir)
++	install -T -m644 build.1 $(DESTDIR)$(man1dir)/obs-build.1
++	install -T -m644 vc.1 $(DESTDIR)$(man1dir)/obs-buildvc.1
++	install -T -m644 unrpm.1 $(DESTDIR)$(man1dir)/unrpm.1
++	ln -sf $(pkglibdir)/build $(DESTDIR)$(bindir)/obs-build
++	ln -sf $(pkglibdir)/vc    $(DESTDIR)$(bindir)/obs-buildvc
+ 	ln -sf $(pkglibdir)/unrpm $(DESTDIR)$(bindir)/unrpm
+ 	ln -s baselibs_configs/baselibs_global.conf $(DESTDIR)$(pkglibdir)/baselibs_global.conf
+ 	ln -s baselibs_configs/baselibs_global-deb.conf $(DESTDIR)$(pkglibdir)/baselibs_global-deb.conf
+diff --git a/build b/build
+index a2b5f3b..5455631 100755
+--- a/build
++++ b/build
+@@ -36,8 +36,8 @@ BUILD_CONF=/etc/build.conf
+ test -e "$BUILD_CONF" && BUILD_DIR=/usr/lib/build
+ 
+ test -z "$BUILD_DIR" -a -e /.build/build.data -a -z "$BUILD_IGNORE_2ND_STAGE" && BUILD_DIR=/.build
+-test -z "$BUILD_DIR" && BUILD_DIR=/usr/lib/build
+-test -z "$BUILD_ROOT" && BUILD_ROOT=/var/tmp/build-root
++test -z "$BUILD_DIR" && BUILD_DIR=/usr/lib/obs-build
++test -z "$BUILD_ROOT" && BUILD_ROOT=/var/tmp/obs-build-root
+ test -z "$CONFIG_DIR" && CONFIG_DIR="$BUILD_DIR/configs"
+ 
+ export BUILD_ARCH BUILD_HOST_ARCH BUILD_ROOT BUILD_RPMS BUILD_DIR BUILD_DEBUG
+@@ -107,7 +107,7 @@ CCACHE=
+ DLNOSIGNATURE=
+ BUILD_FLAVOR=
+ OBS_PACKAGE=
+-CACHE_DIR=/var/cache/build
++CACHE_DIR=/var/cache/obs-build
+ 
+ RECIPE_BUILD_START_TIME=
+ 

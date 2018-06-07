@@ -1,0 +1,31 @@
+From: =?utf-8?b?SMOpY3RvciBPcsOzbiBNYXJ0w61uZXo=?= <zumbi@debian.org>
+Date: Mon, 5 Mar 2018 01:15:10 +0100
+Subject: HACK: make glibc build
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+
+U2VlOgogIGh0dHBzOi8vYnVncy5kZWJpYW4ub3JnL2NnaS1iaW4vYnVncmVwb3J0LmNnaT9idWc9
+ODQ0NDIwCgpTaWduZWQtb2ZmLWJ5OiBTam9lcmQgU2ltb25zIDxzam9lcmQuc2ltb25zQGNvbGxh
+Ym9yYS5jby51az4KU2lnbmVkLW9mZi1ieTogSMOpY3RvciBPcsOzbiBNYXJ0w61uZXogPHp1bWJp
+QGRlYmlhbi5vcmc+Cg==
+---
+ build-recipe-debootstrap | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/build-recipe-debootstrap b/build-recipe-debootstrap
+index 9220952..2404fdc 100644
+--- a/build-recipe-debootstrap
++++ b/build-recipe-debootstrap
+@@ -68,6 +68,11 @@ recipe_build_debootstrap() {
+         cp $BUILD_ROOT/etc/hosts $BUILD_ROOT/$myroot/etc/hosts
+     fi
+ 
++
++    # Hack for glibc build, make localhost. resolve
++    echo "127.0.0.2 localhost."  >> $BUILD_ROOT/$myroot/etc/hosts
++    cat $BUILD_ROOT/$myroot/etc/hosts
++
+     # Mount special filesystem in the debootstrap build root
+     mount -n -tproc none $BUILD_ROOT/$myroot/proc
+     mount -n -tsysfs -o ro none $BUILD_ROOT/$myroot/sys

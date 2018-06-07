@@ -1,3 +1,113 @@
+obs-build (20180302-2) unstable; urgency=medium
+
+  * debian/patches: avoid source package rebuilds
+  * debian/patches: add fallback for Debian SID
+  * debian/gbp.conf: add gbp configuration file
+  * debian/control: recommend xzdec for arch linux support
+
+ -- Héctor Orón Martínez <zumbi@debian.org>  Tue, 06 Mar 2018 00:55:57 +0100
+
+obs-build (20180302-1) unstable; urgency=medium
+
+  * New upstream release
+  * debian/patches: refresh and fix current builds
+  * debian/patches: update
+  * debian/control: bump standard version, replace priority
+  * debian/control: add recommends and suggests (Closes: #887173)
+    - add e2fsprogs as recommends and suggest btrfs and xfs tools.
+  * Fixes CVE-2017-14804:
+    - Exploit extractbuild to write to files in the host system
+    (Closes: #887306)
+  * debian/control: add python depend per openstack-console script.
+  * debian/rules: fixup build-vm-openstack execution.
+
+ -- Héctor Orón Martínez <zumbi@debian.org>  Mon, 05 Mar 2018 01:40:32 +0100
+
+obs-build (20170201-3) unstable; urgency=medium
+
+  [ Sjoerd Simons ]
+  * Added a selection of patches to improve full-distro builds:
+    - dsc-Keep-everything.patch
+    - deboostrap-Enable-dpkg-unsafe-io-usage.patch
+    - HACK-Make-glibc-build.patch
+    - debootstrap-generate-apt-caches.patch
+
+  [ Andrew Lee (李健秋) ]
+  * Added depends to sudo, libarchive-tools. (Closes: #866580)
+  * debian/source/options: drop no-preparation as it breaks pbuilder.
+
+ -- Andrew Lee (李健秋) <ajqlee@debian.org>  Sat, 05 Aug 2017 05:24:36 +0800
+
+obs-build (20170201-2) unstable; urgency=medium
+
+  * Refine exist and import new patches:
+    - 0001-Correct-debootstrap-log-path.patch (Closes: #854563)
+    - 0002-deb-Force-unsafe-io-when-install-packages.patch
+    - 0003-snapcraft-Drop-duplicated-code.patch
+    - 0004-livebuild-Only-create-symlinks-after-dpkg-scanpackag.patch
+    - 0005-debootstrap-Ensure-etc-hosts-exists.patch
+    - 0006-debootstrap-Mount-virtual-filesystems-in-the-deboots.patch
+      (Closes: 854557)
+    - 0007-debootstrap-Always-try-to-unmount-binfmt_misc.patch
+      (Closes: #854559)
+    - 0008-debootstrap-Improve-devpts-mounting.patch (Closes: #854558)
+  * Add patch to prevent creation of an empty rcS.
+
+ -- Andrew Lee (李健秋) <ajqlee@debian.org>  Fri, 17 Feb 2017 19:40:45 +0800
+
+obs-build (20170201-1) unstable; urgency=medium
+
+  * New upstream release. (Closes: #853145)
+  * Refreshed 0001-Use-obs-build-in-locations-and-executable-names-inst.patch.
+  * Fix debootstrap recipe fails when building for xenial: (Closes: #853144)
+    - 0001-snapcraft-Drop-duplicated-code.patch
+    - 0002-livebuild-Only-create-symlinks-after-dpkg-scanpackag.patch
+  * Fix debootstrap build chroot not completely setup: (Closes: #853292)
+    - 0001-debootstrap-Ensure-etc-hosts-exists.patch
+    - 0002-debootstrap-Mount-virtual-filesystems-in-the-deboots.patch
+  * debian/rules: drop not executable fix that already included upstream.
+
+ -- Andrew Lee (李健秋) <ajqlee@debian.org>  Thu, 02 Feb 2017 21:45:10 +0800
+
+obs-build (20160921-1) unstable; urgency=medium
+
+  [ Andrew Lee (李健秋) ]
+  * New upstream release. (Closes: #786404, #796522)
+  * Drop 0002-Fix-Build-Zypp-parsecfg-expected-full-config-file-na.patch:
+    included upstream.
+  * Refreshed 0001-Use-obs-build-in-locations-and-executable-names-inst.patch.
+  * Bump standard-version to 3.9.8.
+  * debian/control: Added misc depends.
+  * debian/control: depends on debootstrap.
+  * debian/copyright: added missing gpl-2 and gpl-3 licenses paragraph.
+
+  [ Héctor Orón Martínez ]
+  * debian/control: add new maintainership to RPM packaging team
+  * debian/control: add new uploaders Andrew and myself
+
+ -- Héctor Orón Martínez <zumbi@debian.org>  Fri, 23 Sep 2016 15:49:42 +0200
+
+obs-build (20141024-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * 0010_find-perm_slash.diff: Use "find -perm /x" instead of "find -perm +x".
+    Closes: #808918
+
+ -- Andreas Metzler <ametzler@debian.org>  Tue, 29 Dec 2015 14:21:18 +0100
+
+obs-build (20141024-1) unstable; urgency=medium
+
+  * New upstream snapshot.
+  * Update copyright, explicit GPL 2 or 3.
+
+ -- Dimitri John Ledkov <dimitri.j.ledkov@linux.intel.com>  Sat, 25 Oct 2014 02:30:05 +0100
+
+obs-build (20140918-1) unstable; urgency=medium
+
+  * Initial release. (Closes: #762949)
+
+ -- Dimitri John Ledkov <dimitri.j.ledkov@linux.intel.com>  Wed, 01 Oct 2014 11:46:00 +0100
+
 obs-build (2013.05.30-0co1endless11) unstable; urgency=medium
 
   * Remove all patches as they've been applied to the main branch.

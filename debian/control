@@ -1,20 +1,22 @@
 Source: obs-build
 Section: devel
 Priority: optional
-Maintainer: Andrew Lee (李健秋) <andrew.lee@collabora.co.uk>
-Uploaders: Hector Oron <hector.oron@collabora.co.uk>
-Build-Depends:
- debhelper (>= 9), apt-utils, binutils, debootstrap, perl
-Standards-Version: 3.9.4
-Vcs-git: git+ssh://git.epoisses.collabora.co.uk/git/obs-build.git
+Maintainer: RPM packaging team <pkg-rpm-devel@lists.alioth.debian.org>
+Uploaders: Dimitri John Ledkov <dimitri.j.ledkov@linux.intel.com>,
+           Andrew Lee (李健秋) <ajqlee@debian.org>,
+           Héctor Orón Martínez <zumbi@debian.org>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 4.1.3
 
 Package: obs-build
 Architecture: all
-Depends: ${misc:Depends}, ${perl:Depends}, rpm, debootstrap
-Recommends:
- bsdtar, liblwp-useragent-determined-perl, libtimedate-perl, liburi-perl,
- libxml-parser-perl, pdl, rpm2cpio, xz-utils
-Description: script to build SUSE Linux RPMs
- This package provides a script for building RPMs for SUSE Linux
- in a chroot environment.
-
+Depends:
+ ${misc:Depends}, ${perl:Depends}, rpm, debootstrap, sudo, libarchive-tools,
+ python
+Recommends: rpm2cpio, osc, libcrypt-ssleay-perl, e2fsprogs, xzdec, xz-utils
+Suggests: xfsprogs, btrfs-tools
+Description: scripts for building RPM/debian packages for multiple distributions
+ This package provides scripts for building RPM and debian packages in
+ contained environments for various build distributions. These tools
+ are use by Open Build Service workers and openSUSE distribution by
+ default.

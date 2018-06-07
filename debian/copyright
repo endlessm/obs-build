@@ -1,36 +1,67 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: obs-build
-Source: git+ssh://git.epoisses.collabora.co.uk/git/obs-build.git
+Upstream-Contact: Adrian Schr√∂ter <adrian@suse.de>
+Source: https://github.com/openSUSE/obs-build
+
 
 Files: *
-Copyright: (c) 1997-2007 SuSE GmbH Nuernberg, Germany
-		Thorsten Kukuk <kukuk@suse.de>
-		Michael Schrer <mls@suse.de>
-		Bernhard Kaindl <bk@suse.de>
-		Mad Martin Jorgensen <mmj@suse.de>
-		Andreas Schwab <schwab@suse.de>
-		Riger Oertel <ro@suse.de>
-		Andreas Gruenbacher <agruen@suse.de>
-License: GPL-2+
+Copyright: 1997-2014 SuSE GmbH Nuernberg, Germany
+License: GPL-2 or GPL-3
 
 Files: debian/*
-Copyright: 2006 Rene Engelhard <rengelhard@suse.de>
-           2013 Andrew Lee (ßı∞∑¨Ó) <andrew.lee@collabora.co.uk>
+Copyright: 2014 Intel Corporation
 License: GPL-2+
+ This program is free software; you can redistribute it
+ and/or modify it under the terms of the GNU General Public
+ License as published by the Free Software Foundation; either
+ version 2 or 3 of the License, or (at your option) any later
+ version.
+ .
+ This program is distributed in the hope that it will be
+ useful, but WITHOUT ANY WARRANTY; without even the implied
+ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE.  See the GNU General Public License for more
+ details.
+ .
+ You should have received a copy of the GNU General Public
+ License along with this package; if not, write to the Free
+ Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+ Boston, MA  02110-1301 USA
+ .
+ On Debian systems, the full text of the GNU General Public
+ License version 2 can be found in the file
+ `/usr/share/common-licenses/GPL-2'.
 
-License: GPL-2+
- This program is free software: you can redistribute it and/or modify
+License: GPL-2
+ This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 2 of the License, or
- (at your option) any later version.
+ the Free Software Foundation; version 2 of the License.
  .
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License along
+ with this program; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License can be found in `/usr/share/common-licenses/GPL-2'.
+
+License: GPL-3
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; under version 3 of the License.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
  .
  You should have received a copy of the GNU General Public License
- along with this program. If not, see <http://www.gnu.org/licenses/>.
+ along with this program.  If not, see <http://www.gnu.org/licenses>.
  .
- The complete text of the GNU General Public License
- can be found in /usr/share/common-licenses/GPL-2 file.
+ On Debian systems, the full text of the GNU General Public License
+ version 3 can be found in the file `/usr/share/common-licenses/GPL-3'.
+
