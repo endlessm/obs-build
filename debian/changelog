@@ -1,3 +1,15 @@
+obs-build (20180302-2endless1) unstable; urgency=medium
+
+  * Resync with debian (T14726). Remaining changes:
+    - Recommend xz-utils since Build uses unxz to decompress
+      control.tar.xz files.
+    - Drop all patches since they've been applied to the main branch. The
+      0002-debootstrap-ensure-etc-hosts-exists.patch patch should be
+      dropped from debian as well since the same thing is in upstream a
+      few lines earlier.
+
+ -- Dan Nicholson <nicholson@endlessm.com>  Thu, 07 Jun 2018 12:25:49 -0500
+
 obs-build (20180302-2) unstable; urgency=medium
 
   * debian/patches: avoid source package rebuilds
