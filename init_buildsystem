@@ -235,7 +235,8 @@ preinstall() {
 
 run_pkg_scripts() {
     chroot $BUILD_ROOT /sbin/ldconfig 2>/dev/null
-    for PKG in $PACKAGES_TO_RUNSCRIPTS ; do
+    PACKAGES_TO_RUNSCRIPTS_FILTERED=`reorder $PACKAGES_TO_RUNSCRIPTS`
+    for PKG in $PACKAGES_TO_RUNSCRIPTS_FILTERED ; do
 	pkg_runscripts
 	check_exit
     done
