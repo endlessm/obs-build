@@ -99,12 +99,8 @@ recipe_build_debootstrap() {
     # do the build
     dsc_build "$BUILD_ROOT/$myroot"
 
-    umount -n $BUILD_ROOT/$myroot/proc/sys/fs/binfmt_misc 2>/dev/null || true
-    umount -n $BUILD_ROOT/$myroot/proc
-    umount -n $BUILD_ROOT/$myroot/sys
-    umount -n $BUILD_ROOT/$myroot/dev/pts
-    umount -n $BUILD_ROOT/$myroot/dev/shm
-    umount -n $BUILD_ROOT/$myroot/run/shm 2>/dev/null || true
+    # cleanup the debootstrap root
+    recipe_cleanup_debootstrap
 
     # move topdir back
     mv "$BUILD_ROOT/$myroot/$TOPDIR" "$BUILD_ROOT/${TOPDIR%/*}"
@@ -118,6 +114,15 @@ recipe_resultdirs_debootstrap() {
 }
 
 recipe_cleanup_debootstrap() {
-    :
+    local myroot=debootstraproot
+
+    if test -n "$BUILD_ROOT" -a -d "$BUILD_ROOT/$myroot" ; then
+        umount -n $BUILD_ROOT/$myroot/proc/sys/fs/binfmt_misc 2>/dev/null || true
+        umount -n $BUILD_ROOT/$myroot/proc 2>/dev/null || true
+        umount -n $BUILD_ROOT/$myroot/sys 2>/dev/null || true
+        umount -n $BUILD_ROOT/$myroot/dev/pts 2>/dev/null || true
+        umount -n $BUILD_ROOT/$myroot/dev/shm 2>/dev/null || true
+        umount -n $BUILD_ROOT/$myroot/run/shm 2>/dev/null || true
+    fi
 }
 
