@@ -48,7 +48,11 @@ recipe_build_debootstrap() {
 	FULL_PKG_LIST="$FULL_PKG_LIST,${PKG%.deb}"
     done
     FULL_PKG_LIST="${FULL_PKG_LIST#,}"
+
+    # cleanup any existing debootstrap root
+    recipe_cleanup_debootstrap
     rm -rf "$BUILD_ROOT/$myroot"
+
     mkdir -p "$BUILD_ROOT/$myroot/etc/dpkg/dpkg.cfg.d"
     echo force-unsafe-io > "$BUILD_ROOT/$myroot/etc/dpkg/dpkg.cfg.d/force-unsafe-io"
 
