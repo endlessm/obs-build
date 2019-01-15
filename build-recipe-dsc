@@ -82,6 +82,7 @@ sed -i "s/\${PACKAGE} (\${VERSION})/\${PACKAGE} (\${VERSION}$OBS_DCH_RELEASE)/" 
 EOF
     elif test -z "$DEB_TRANSFORM"; then
 	# Use dch to apply new version in changelog
+	OBS_DCH_RELEASE="${RELEASE}"
 	DEBVERSION=$(egrep -m1 '^Version: ' $BUILD_ROOT/$DEB_SOURCEDIR/$DEB_DSCFILE  | sed 's/^Version:[ ]*//')
 	DEBREASON="${REASON:-Rebuild requested}"
 	rm -f $BUILD_ROOT/$TOPDIR/BUILD/debian/changelog.dch
