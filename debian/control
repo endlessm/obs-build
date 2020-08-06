@@ -12,7 +12,7 @@ Package: obs-build
 Architecture: all
 Depends:
  ${misc:Depends}, ${perl:Depends}, rpm, debootstrap, sudo, libarchive-tools,
- python
+ python, python-lzma
 Recommends: rpm2cpio, osc, libcrypt-ssleay-perl, e2fsprogs, xzdec, xz-utils
 Suggests: xfsprogs, btrfs-tools
 Description: scripts for building RPM/debian packages for multiple distributions
