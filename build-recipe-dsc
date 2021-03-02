@@ -86,7 +86,7 @@ EOF
 	DEBVERSION=$(egrep -m1 '^Version: ' $BUILD_ROOT/$DEB_SOURCEDIR/$DEB_DSCFILE  | sed 's/^Version:[ ]*//')
 	DEBREASON="${REASON:-Rebuild requested}"
 	rm -f $BUILD_ROOT/$TOPDIR/BUILD/debian/changelog.dch
-	chroot $BUILD_ROOT su -c "cd $TOPDIR/BUILD && dch  --preserve --force-distribution -D unstable -v ${DEBVERSION}${RELEASE} $DEBREASON" - $BUILD_USER
+	chroot $BUILD_ROOT su -c "cd $TOPDIR/BUILD && DEBEMAIL='Autobuild <autobuild@localhost>' dch  --preserve --force-distribution -D unstable -v ${DEBVERSION}${RELEASE} $DEBREASON" - $BUILD_USER
     fi
 
 }
