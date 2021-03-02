@@ -11,10 +11,9 @@ Standards-Version: 4.1.3
 Package: obs-build
 Architecture: all
 Depends:
- ${misc:Depends}, ${perl:Depends}, rpm, debootstrap, sudo, libarchive-tools,
- python
+ ${misc:Depends}, ${perl:Depends}, rpm, debootstrap, sudo, libarchive-tools
 Recommends: rpm2cpio, osc, libcrypt-ssleay-perl, e2fsprogs, xzdec, xz-utils
-Suggests: xfsprogs, btrfs-tools
+Suggests: xfsprogs, btrfs-tools, python, python-websocket
 Description: scripts for building RPM/debian packages for multiple distributions
  This package provides scripts for building RPM and debian packages in
  contained environments for various build distributions. These tools
